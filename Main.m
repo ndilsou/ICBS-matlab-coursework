@@ -6,6 +6,8 @@
 % We will assume that the data are relatively clean. i.e the data extracted
 % from the excel files can be readily used.
 clear all
+close all
+tickers = ['USD/AUD'; 'USD/JPY'; 'USD/NZD'; 'USD/CHF'];
 %the dates are structured as numeric variable. The only text data in the
 %file must be the header.
 [data, header ] = xlsread('FX-data', 'data'); 
@@ -55,8 +57,11 @@ for i=1:2:col
     j = j+1;
 end
 
-plot(datenum(monthly_dates_index),rx)
-
+plot(datenum(monthly_dates_index),rx*100);
+datetick('x');
+ylabel('(%)');
+xlabel('year');
+title('Evolution of the excess return')
 %% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
