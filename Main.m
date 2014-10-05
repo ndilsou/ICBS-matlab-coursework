@@ -40,30 +40,38 @@ monthly_log_data = log_data(monthly_flag,:);
 
 %% Exchange Rate Changes and Excess Returns using forward contracts
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-[row_month, col] = size(monthly_log_data);
-
-pairs = col/2; %The number of pairs of currencies. 
-rx = zeros(row_month-1, pairs); 
+% 
 
 monthly_dates_index = dates_index(monthly_flag,:);
 monthly_dates_index = monthly_dates_index(2:end,:);
-%one month is lost as we take the differential between ft en s(t+1)
 
-j = 1;
-for i=1:2:col
-    %We must shift the data and drop one value.
-    excess_ret = monthly_log_data(1:end-1,i+1) - monthly_log_data(2:end,i);
-    rx(:,j) = excess_ret;
-    j = j+1;
-end
+rx = Extract_excess_returns(monthly_log_data);
+Summary(monthly_dates_index,rx,tickers);
 
-plot(datenum(monthly_dates_index),rx*100);
-datetick('x');
-ylabel('(%)');
-xlabel('year');
-title('Evolution of the excess return')
-%% 
+%% The Carry Trade.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%returns = monthly_log_data;
+
+% we extract the spot variation for each currency
+[dSpot, IRP] = returns_decomposition( monthly_log_data );
+
+
 
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

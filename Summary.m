@@ -1,5 +1,13 @@
 function [] = summary(dates_index, dataset, tickers)
-    
+% SUMMARY Compute basic statistics and plot the series
+%INPUT :
+%- dates_index (datestring or datetime) : array of the dates that will be
+%used as a X axis
+%- dataset (float) : array of the variable to plot
+%- tickers (string) : array of the name for each variable.
+% OUTPUT :
+% void
+
     [rows, nb_series] = size(dataset);
     
     if ischar(dates_index)
