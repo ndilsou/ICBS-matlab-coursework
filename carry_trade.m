@@ -7,7 +7,7 @@ years_index = year(dates_index);
 %TODO handle the default case where the user doesn't want to specify a
 %begin and/or end date.
 flag = and(years_index >= begin_date,years_index < end_date) ;
-dates_index = dates_index(flag);
+
 dataset = dataset(flag,:);
 %%
 rx = Extract_excess_returns(dataset);

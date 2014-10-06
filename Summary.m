@@ -7,6 +7,7 @@ function [] = summary(dates_index, dataset, tickers)
 %- tickers (string) : array of the name for each variable.
 % OUTPUT :
 % void
+%TOFIX : more flexibility in the data management.
 
     [rows, nb_series] = size(dataset);
     
@@ -19,6 +20,8 @@ function [] = summary(dates_index, dataset, tickers)
     for i=1:nb_series
         fprintf('Series : %s \n\n',  tickers(i,:));
         
+        %statistics
+                
         annualized_mean = 12*mean(dataset(:,i));
         fprintf('Annualized Mean : %3f\n',annualized_mean); 
         annualized_std = sqrt(12)*std(dataset(:,i));
@@ -28,7 +31,6 @@ function [] = summary(dates_index, dataset, tickers)
         data_kurtosis = kurtosis(dataset(:,i));
         fprintf('Kurtosis : %3f\n\n',data_kurtosis); 
         
-        %statistics
         
         %Plotting
         subplot(2,nb_series/2,i)

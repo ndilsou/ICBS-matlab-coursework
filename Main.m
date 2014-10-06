@@ -89,13 +89,24 @@ title( 'Cumulative return of the carry trade portfolios');
 legend('Passive Portfolio', 'Active Portfolio');
 
 
-%%
+%% Volatility and Correlation of Exchange Rate Changes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%Question (a) Daily rate of depreciation
+% We just need to take the return decomposition for all our series and keep
+% the dSPot
 
+[daily_dSpot, ~ ] = returns_decomposition(log_data);
 
+Summary(dates_index, daily_dSpot, tickers);
 
+%Question (b) 
 
+variances = volatility(daily_dSpot, 25);
+standarddev = sqrt(252*variance)
+
+%Question (c)
+[correlations, correl_tickers ]= correlation(daily_dSpot, 100, tickers);
 
 
 
