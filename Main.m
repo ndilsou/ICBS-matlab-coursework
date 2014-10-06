@@ -51,10 +51,42 @@ Summary(monthly_dates_index,rx,tickers);
 %% The Carry Trade.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %returns = monthly_log_data;
+begin_date = 1994
+end_date = 2011
+%Question (a)
 
-% we extract the spot variation for each currency
-[dSpot, IRP] = returns_decomposition( monthly_log_data );
+% we separate the series we want to work on.
+JPY =  monthly_log_data(:,3:4);
+NZD =  monthly_log_data(:,5:6);
+%
+[returns, cumreturns, dCarry, dIR] = carry_trade( monthly_dates_index,[NZD, JPY],false, begin_date, end_date );
 
+% We can compute the mean squared error to check if the relationship holds
+% well
+MSE = mean(((dCarry + dIR) - returns).^2);
+fprintf('Mean Squared Error between decomposed returns and initial returns \for Questions (a): %f \n\n',MSE);
+
+
+%Question (b)
+[reb_returns, reb_cumreturns, reb_dCarry, reb_dIR, positions] = carry_trade( monthly_dates_index, ...
+    monthly_log_data,true, begin_date, end_date);
+
+reb_MSE = mean(((reb_dCarry + reb_dIR) - reb_returns).^2);
+fprintf('Mean Squared Error between decomposed returns and initial returns \for Questions (b): %f \n\n',reb_MSE);
+
+%We plot the cumulative returns
+years_index = year(monthly_dates_index);
+flag = and(years_index >= begin_date,years_index < end_date) ;
+current_dates_index = monthly_dates_index(flag,:);
+current_dates_index = datenum(current_dates_index(2:end,:));
+
+
+plot(current_dates_index,[cumreturns,reb_cumreturns]);
+datetick('x','keeplimits');
+ylabel('(%)');
+xlabel('years');
+title( 'Cumulative return of the carry trade portfolios');
+legend('Passive Portfolio', 'Active Portfolio');
 
 
 %%
