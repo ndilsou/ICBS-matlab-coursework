@@ -9,12 +9,12 @@ temp = find(strcmp(varargin,'annualise') == 1);
 if isempty(temp)
     annualise = 252;
 else
-    annualise = temp;
+    annualise = varargin{temp+1};
 end
 
 [row, col] = size(series);
 %That's the smartest way to obtain the right number of columns...
-nb_correl = factorial(col)/(factorial(2)*factorial(col-2))
+nb_correl = factorial(col)/(factorial(2)*factorial(col-2));
 correlations = zeros(row-window+1,nb_correl);
 correl_tickers = cell(1,nb_correl);
 
@@ -28,6 +28,7 @@ for i = 1:col-1
     end
 end
 
+correl_tickers = char(correl_tickers);
 
 %% Helper function
     function correl_pair = compute_correl(pair)
@@ -35,7 +36,7 @@ end
         correl_pair = zeros(row-window+1,1);
         stddev = sqrt(annualise*volatility(pair, window));
         for  t=window:row
-           correl_pair(t-window+1,1) = sum(pair(t-window+1:t,1).*pair(t-window+1:t,2))/window ;
+           correl_pair(t-window+1,1) = (pair(t-window+1:t,1)'*pair(t-window+1:t,2))/window ;
            correl_pair(t-window+1,1) = annualise*correl_pair(t-window+1,1)/ ...
                (stddev(t-window+1,1).*stddev(t-window+1,2));            
         end

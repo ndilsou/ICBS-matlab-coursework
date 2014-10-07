@@ -7,6 +7,7 @@
 % from the excel files can be readily used.
 clear all
 close all
+clc
 tickers = ['USD/AUD'; 'USD/JPY'; 'USD/NZD'; 'USD/CHF'];
 %the dates are structured as numeric variable. The only text data in the
 %file must be the header.
@@ -46,7 +47,7 @@ monthly_dates_index = dates_index(monthly_flag,:);
 monthly_dates_index = monthly_dates_index(2:end,:);
 
 rx = Extract_excess_returns(monthly_log_data);
-Summary(monthly_dates_index,rx,tickers);
+Summary(monthly_dates_index,rx,tickers,'annualise',12);
 
 %% The Carry Trade.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,7 +81,7 @@ flag = and(years_index >= begin_date,years_index < end_date) ;
 current_dates_index = monthly_dates_index(flag,:);
 current_dates_index = datenum(current_dates_index(2:end,:));
 
-
+figure
 plot(current_dates_index,[cumreturns,reb_cumreturns]);
 datetick('x','keeplimits');
 ylabel('(%)');
@@ -98,20 +99,22 @@ legend('Passive Portfolio', 'Active Portfolio');
 
 [daily_dSpot, ~ ] = returns_decomposition(log_data);
 
-Summary(dates_index, daily_dSpot, tickers);
+Summary(dates_index(2:end,:), daily_dSpot, tickers);
 
 %Question (b) 
 
 variances = volatility(daily_dSpot, 25);
-standarddev = sqrt(252*variance)
+standarddev = sqrt(252*variances);
 
 %Question (c)
 [correlations, correl_tickers ] = correlation(daily_dSpot, 100, tickers);
 
+%Note how we must shift 1 data point more the date index. The dSpot being a
+%difference we already lost one data point even before taking the moving
+%window
+Summary(dates_index(101:end,:), correlations, correl_tickers);
 
-
-
-
+    
 
 
 
