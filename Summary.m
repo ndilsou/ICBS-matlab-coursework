@@ -7,7 +7,9 @@ function [] = summary(dates_index, dataset, tickers)
 %- tickers (string) : array of the name for each variable.
 % OUTPUT :
 % void
-%TOFIX : more flexibility in the data management.
+
+%TOFIX : more flexibility in the data management. Add a variable for the
+%annualisation parameter. Check the lenght of the series for the plot.
 
     [rows, nb_series] = size(dataset);
     

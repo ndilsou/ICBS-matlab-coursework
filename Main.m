@@ -106,7 +106,7 @@ variances = volatility(daily_dSpot, 25);
 standarddev = sqrt(252*variance)
 
 %Question (c)
-[correlations, correl_tickers ]= correlation(daily_dSpot, 100, tickers);
+[correlations, correl_tickers ] = correlation(daily_dSpot, 100, tickers);
 
 
 
